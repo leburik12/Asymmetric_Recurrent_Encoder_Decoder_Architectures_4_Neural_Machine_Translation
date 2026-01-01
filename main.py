@@ -4,6 +4,14 @@ from data.vocab import Vocab
 from data.tokenizer import Tokenizer 
 from data.dataset import TranslationDataset
 from data.TranslationDataUtility import TranslationDataUtility
+import torch
+from torch.utils.data import Dataset, DataLoader
+import collections
+import re
+import requests
+import math
+import zipfile
+import os
 
 def main():
     # Device
