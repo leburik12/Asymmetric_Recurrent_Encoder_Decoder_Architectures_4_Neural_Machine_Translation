@@ -1,3 +1,5 @@
+import torch
+
 class Tokenizer:
     def __init__(self, vocab, num_steps):
         self.vocab = vocab
