@@ -1,4 +1,4 @@
-class TranslationDataset(Dataset):
+class TranslationDataset:
     def __init__(self, src_sentences, tgt_sentences, src_tokenizer, tgt_tokenizer):
         self.src, self.src_len = src_tokenizer.tokenize_and_pad(src_sentences)
         self.tgt, self.tgt_len = tgt_tokenizer.tokenize_and_pad(tgt_sentences)
