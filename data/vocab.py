@@ -1,4 +1,5 @@
 import collections
+import torch
 
 class Vocab:
     def __init__(self, tokens, min_freq=1, reserved_tokens=None):
