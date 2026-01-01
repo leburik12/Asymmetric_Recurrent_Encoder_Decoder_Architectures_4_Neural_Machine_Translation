@@ -1,5 +1,5 @@
 from utils.device import DeviceManager
-from data.dataset import NMTDataLoader
+from data.loader import NMTDataLoader
 from data.vocab import Vocab
 from data.tokenizer import Tokenizer 
 from data.dataset import TranslationDataset
