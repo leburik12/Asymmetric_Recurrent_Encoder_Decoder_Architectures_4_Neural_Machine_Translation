@@ -3,12 +3,21 @@ from data.loader import NMTDataLoader
 from data.vocab import Vocab
 from data.tokenizer import Tokenizer 
 from data.dataset import TranslationDataset
+from data.TranslationDataUtility import TranslationDataUtility
 
 def main():
-    # 1. Device
+    # Device
     device = DeviceManager.get_device()
 
-    # 2. Load raw data
+    DATA_URL = 'http://d2l-data.s3-accelerate.amazonaws.com/fra-eng.zip'
+    TranslationDataUtility.extract_and_rename(DATA_URL)
+
+    # Now your code will work perfectly:
+    with open("fra-eng.txt", encoding='utf-8') as f:
+        raw_text = f.read()
+        print(f"First 50 chars: {raw_text[:50]}")
+
+    # Load raw data
     with open("fra-eng.txt") as f:
         raw_text = f.read()
 
@@ -16,7 +25,7 @@ def main():
     text = loader.preprocess()
     src_sentences, tgt_sentences = loader.tokenize(text)
 
-    # 3. Build vocabularies
+    # Build vocabularies
     src_vocab = Vocab(
         tokens=[t for sent in src_sentences for t in sent],
         reserved_tokens=["<pad>", "<bos>", "<eos>"]
@@ -26,24 +35,24 @@ def main():
         reserved_tokens=["<pad>", "<bos>", "<eos>"]
     )
 
-    # 4. Tokenizers
+    # Tokenizers
     num_steps = 10
     src_tokenizer = Tokenizer(src_vocab, num_steps)
     tgt_tokenizer = Tokenizer(tgt_vocab, num_steps)
 
-    # 5. Dataset & DataLoader
+    #  Dataset & DataLoader
     dataset = TranslationDataset(
         src_sentences, tgt_sentences,
         src_tokenizer, tgt_tokenizer
     )
     data_iter = DataLoader(dataset, batch_size=32, shuffle=True)
 
-    # 6. Model
+    # Model
     encoder = Encoder(len(src_vocab), 256, 256, 2)
     decoder = Decoder(len(tgt_vocab), 256, 256, 2)
     model = Seq2Seq(encoder, decoder)
 
-    # 7. Training
+    #  Training
     optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
     loss_fn = torch.nn.CrossEntropyLoss(ignore_index=src_vocab['<pad>'])
 
@@ -53,7 +62,7 @@ def main():
         loss = trainer.train_epoch(data_iter)
         print(f"Epoch {epoch + 1}, Loss: {loss:.4f}")
 
-    # 8. Prediction + BLEU
+    #  Prediction + BLEU
     predictor = Seq2SeqPredictor(model, tgt_vocab, device, num_steps)
 
     src = src_sentences[0]
