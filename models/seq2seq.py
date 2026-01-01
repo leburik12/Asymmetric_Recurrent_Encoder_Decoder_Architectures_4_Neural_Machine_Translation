@@ -1,3 +1,6 @@
+import torch
+from torch.utils.data import Dataset, DataLoader
+
 class Seq2Seq(torch.nn.Module):
     def __init__(self, encoder, decoder):
         super().__init__()

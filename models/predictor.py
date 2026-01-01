@@ -1,3 +1,6 @@
+import torch
+from torch.utils.data import Dataset, DataLoader
+
 class Seq2SeqPredictor:
     def __init__(self, model, tgt_vocab, device, max_len):
         self.model = model
