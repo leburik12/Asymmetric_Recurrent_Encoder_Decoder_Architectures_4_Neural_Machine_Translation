@@ -1,3 +1,5 @@
+import collections
+
 class Vocab:
     def __init__(self, tokens, min_freq=1, reserved_tokens=None):
         if reserved_tokens is None:

@@ -1,3 +1,5 @@
+import collections
+
 class BLEUEvaluator:
     @staticmethod
     def bleu(pred_seq, label_seq, k):
